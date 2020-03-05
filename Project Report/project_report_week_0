@@ -1,0 +1,129 @@
+CSCB58 Project Report: Winter 2020
+
+Team Member A
+-------------
+First Name: Yena
+Last Name: Lee
+Student Number: 1004932068
+UofT E-mail Address: leeyena.lee@mail.utoronto.ca
+
+
+Team Member B
+-------------
+First Name: Hyunmo
+Last Name: Jeong
+Student Number: 1005294067
+UofT E-mail Address: hyunmo.jeong@mail.utoronto.ca
+
+
+Project Plan
+--------
+
+Project Title: Digital Keyboard
+
+
+Provide a one paragraph description of your project: 
+
+	This project is an FPGA application on the Altera DE2-115 board that 
+	functions as a digital keyboard (piano) from keyboard and microphone input. 
+	It can play music using 3 lines of keyboard - 12345678, QWERTYUI, ASDFGHJK. 
+	The sounds will have 4 variations that can be changed using 2 switches. 
+	Also, the keyboard will contain BPM changeable metronome that keeps ticking 
+	while the metronome switch is turned on. The BPM will be displayed on the 
+	7-segment display for users. The sound recorder will also be implemented 
+	two records while the record switch is turned on.
+
+What is your plan for the first week?
+
+	We will be using keyboard to input the piano key and sensor to output the sound.
+
+	We will design (draw schematics):
+	- Piano
+	- Flat-BPM (unchangeable) metronome
+	- Sound recorder
+
+	We will build:
+	- Fixed-BPM metronome
+	- Connect BPM with 7-segment display using hex_display module
+	- Register for recording sound
+
+	We will test:
+	- Metronome
+	- Piano
+	  - Sound within three octaves
+	- Metronome and piano together
+	  - Both sound should be heard
+	  - Piano volume should be larger
+
+	We will research:
+	- How to connect inputs and sounds 
+	- 4 sound variations
+
+	We will prepare:
+	- Musics for test recorder
+	
+What is your plan for the second week?
+
+	We will design (draw schematics):
+	- BPM changeable metronome
+
+	We will update:
+	- Fixed-BPM metronome to changeable BPM metronome
+	  - 4 variations
+	- Sound recorder using register built last week
+
+	We will test:
+	- BPM changeable metronome
+	  - Default BPM (fixed-BPM built last week)
+	  - 4 different variations
+	- Metronome and piano together
+	  - Both sound should be heard
+	  - Piano volume should be larger
+	- Sound recorder
+
+	We will research:
+	- How to store two or more sound memory in DE2 board
+
+	We will prepare:
+	- Musics for test recorder
+
+What is your plan for the third week?
+	
+	We will update:
+	- Sound recorder record two or more musics
+
+	We will test:
+	- Sound recorder
+	  - Use metronome and piano with music prepared last week
+
+What is your backup plan if things don’t work out as planned?
+
+	1) Make sound recorder that can record once and overwrite.	
+	2) Make fixed-BPM (unchangeable) metronome.
+	   Display the fixed-BPM on 7-segment display.
+	3) Change the input from keyboard into switches.
+
+
+Weekly Reports
+--------------
+<In this space, provide a report each week of what worked and what didn't, and what (if any) changes were made to your proposal)>
+
+
+[This is an example of a report where things didn't go so well.]
+Week 1: 
+	We added and tested the sensors and the main FSM. 
+	The distance sensor we had intended to use didn't work as expected (wasn't precise enough at further distances, only seems to work accurately within 5-10cm), so instead we've decided to change the project to use a light sensor instead.
+	Had trouble getting the FSM to work (kept getting stuck in state 101, took longer to debug than expected), so we may not be able to add the high score feature. We have updated that in the project description as an optional feature.
+
+
+
+References
+----------
+<In this space clearly indicate all external sources used in this project. If you used anyone else's code (from previous B58 projects or other sources) clearly indicate what you used and where you found it. Usage of any material not credited in this space will be considered plagiarism. It is absolutely OK and expected to update this section as you progress in the projected.>
+
+<Make sure to document what YOU added on top of the existing work, especially if you work with a previous project. What is it that YOU added?>
+
+
+Repo & Video
+------------
+<At the end of the project, provide links to your code repository and presentation video (and passwords if not public>

@@ -1,9 +1,9 @@
 // Module taken from Joe Armitage & co
 module ps2_rx (
 	input wire clk, reset, 
-	input wire ps2d, ps2c, rx_en,	    // ps2 data and clock inputs, receive enable input
-	output reg rx_done_tick,		    // ps2 receive done tick
-	output wire [7:0] rx_data		    // data received 
+	input wire ps2d, ps2c, rx_en,		// ps2 data and clock inputs, receive enable input
+	output reg rx_done_tick,		// ps2 receive done tick
+	output wire [7:0] rx_data		// data received 
 	);
 	
 	// FSMD state declaration
@@ -12,14 +12,14 @@ module ps2_rx (
 		rx   = 1'b1;
 		
 	// Internal signal declaration
-	reg state_reg, state_next;	    // FSMD state register
-	reg [7:0] filter_reg;		    // Shift register filter for ps2c
-	wire [7:0] filter_next;		    // Next state value of ps2c filter register
-	reg f_val_reg;				    // reg for ps2c filter value, either 1 or 0
-	wire f_val_next;			    // Next state for ps2c filter value
-	reg [3:0] n_reg, n_next;            // Register to keep track of bit number 
-	reg [10:0] d_reg, d_next;	    // Register to shift in rx data
-	wire neg_edge;			    // Negative edge of ps2c clock filter value
+	reg state_reg, state_next;		// FSMD state register
+	reg [7:0] filter_reg;			// Shift register filter for ps2c
+	wire [7:0] filter_next;			// Next state value of ps2c filter register
+	reg f_val_reg;				// reg for ps2c filter value, either 1 or 0
+	wire f_val_next;			// Next state for ps2c filter value
+	reg [3:0] n_reg, n_next;		// Register to keep track of bit number 
+	reg [10:0] d_reg, d_next;		// Register to shift in rx data
+	wire neg_edge;				// Negative edge of ps2c clock filter value
 	
 	// Register for ps2c filter register and filter value
 	always @(posedge clk, posedge reset)
@@ -71,24 +71,24 @@ module ps2_rx (
 			
 		case (state_reg)
 		    idle:
-			if (neg_edge & rx_en)				   // Start bit received
+			if (neg_edge & rx_en)				// Start bit received
 			    begin
-				n_next = 4'b1010;				   // Set bit count down to 10
-				state_next = rx;				   // Go to rx state
+				n_next = 4'b1010;			// Set bit count down to 10
+				state_next = rx;			// Go to rx state
 			    end
 			    
-		    rx:								    // Shift in 8 data, 1 parity, and 1 stop bit
+		    rx:							// Shift in 8 data, 1 parity, and 1 stop bit
 			begin
-			    if (neg_edge)					    // If ps2c negative edge...
+			    if (neg_edge)				// If ps2c negative edge...
 				begin
-				    d_next = {ps2d, d_reg[10:1]};	    // Sample ps2d, right shift into data register
-				    n_next = n_reg - 1;			    // Decrement bit count
+				    d_next = {ps2d, d_reg[10:1]};	// Sample ps2d, right shift into data register
+				    n_next = n_reg - 1;			// Decrement bit count
 				end
 				
-			    if (n_reg==0)					    // After 10 bits shifted in, go to done state
+			    if (n_reg==0)				// After 10 bits shifted in, go to done state
 				begin
-				    rx_done_tick = 1'b1;			    // Assert dat received done tick
-				    state_next = idle;			    // Go back to idle
+				    rx_done_tick = 1'b1;		// Assert dat received done tick
+				    state_next = idle;			// Go back to idle
 				end
 			end
 		endcase
@@ -100,35 +100,35 @@ endmodule
 // Module taken from Joe Armitage & co
 module keyboard (
     input wire clk, reset,
-    input wire ps2d, ps2c,			// ps2 data and clock lines
-    output wire [7:0] scan_code,		// scan_code received from keyboard to process
+    input wire ps2d, ps2c,		// ps2 data and clock lines
+    output wire [7:0] scan_code,	// scan_code received from keyboard to process
     output wire scan_code_ready,	// Signal to outer control system to sample scan_code
     output wire letter_case_out		// Output to determine if scan code is converted to lower or upper ascii code for a key
     );
 	
     // Constant declarations
-    localparam  BREAK    = 8'hf0,		// Break code
-			  SHIFT1   = 8'h12,		// First shift scan
-			  SHIFT2   = 8'h59,	// Second shift scan
-			  CAPS     = 8'h58;		// Caps lock
+    localparam  BREAK    = 8'hf0,	// Break code
+		SHIFT1   = 8'h12,	// First shift scan
+		SHIFT2   = 8'h59,	// Second shift scan
+		CAPS     = 8'h58;	// Caps lock
 
     // FSM symbolic states
-    localparam [2:0] lowercase			= 3'b000,	// idle, process lower case letters
-				   ignore_break		= 3'b001,	// Ignore repeated scan code after break code -F0- reeived
-				   shift				= 3'b010,	// Process uppercase letters for shift key held
-				   ignore_shift_break	= 3'b011,	// Check scan code after F0, either idle or go back to uppercase
-				   capslock			= 3'b100,	// Process uppercase letter after capslock button pressed
-				   ignore_caps_break	= 3'b101;	// Check scan code after F0, either ignore repeat, or decrement caps_num
+    localparam [2:0] lowercase		= 3'b000,	// idle, process lower case letters
+		ignore_break		= 3'b001,	// Ignore repeated scan code after break code -F0- reeived
+		shift			= 3'b010,	// Process uppercase letters for shift key held
+		ignore_shift_break	= 3'b011,	// Check scan code after F0, either idle or go back to uppercase
+		capslock		= 3'b100,	// Process uppercase letter after capslock button pressed
+		ignore_caps_break	= 3'b101;	// Check scan code after F0, either ignore repeat, or decrement caps_num
                      
                
     // Internal signal declarations
-    reg [2:0] state_reg, state_next;			    // FSM state register and next state logic
-    wire [7:0] scan_out;						    // Scan code received from keyboard
-    reg got_code_tick;						    // Asserted to write current scan code received to FIFO
-    wire scan_done_tick;						    // Asserted to signal that ps2_rx has received a scan code
-    reg letter_case;							    // 0 for lower case, 1 for uppercase, outputed to use when converting scan code to ascii
-    reg [7:0] shift_type_reg, shift_type_next;	    // Register to hold scan code for either of the shift keys or caps lock
-    reg [1:0] caps_num_reg, caps_num_next;	    // Keeps track of number of capslock scan codes received in capslock state (3 before going back to lowecase state)
+    reg [2:0] state_reg, state_next;			// FSM state register and next state logic
+    wire [7:0] scan_out;				// Scan code received from keyboard
+    reg got_code_tick;					// Asserted to write current scan code received to FIFO
+    wire scan_done_tick;				// Asserted to signal that ps2_rx has received a scan code
+    reg letter_case;					// 0 for lower case, 1 for uppercase, outputed to use when converting scan code to ascii
+    reg [7:0] shift_type_reg, shift_type_next;		// Register to hold scan code for either of the shift keys or caps lock
+    reg [1:0] caps_num_reg, caps_num_next;		// Keeps track of number of capslock scan codes received in capslock state (3 before going back to lowecase state)
    
     // Instantiate ps2 receiver
     ps2_rx ps2_rx_unit (.clk(clk), .reset(reset), .rx_en(1'b1), .ps2d(ps2d), .ps2c(ps2c), .rx_done_tick(scan_done_tick), .rx_data(scan_out));
@@ -162,32 +162,32 @@ module keyboard (
 		// State to process lowercase key strokes, go to uppercase state to process shift/capslock
 		lowercase:
 		    begin  
-			if(scan_done_tick)									// If scan code received
+			if(scan_done_tick)						// If scan code received
 			    begin
 				if(scan_out == SHIFT1 || scan_out == SHIFT2)		// If code is shift    
 				    begin
-					shift_type_next = scan_out;					// Record which shift key was pressed
-					state_next = shift;							// Go to shift state
+					shift_type_next = scan_out;			// Record which shift key was pressed
+					state_next = shift;				// Go to shift state
 				    end
 						    
-				else if(scan_out == CAPS)						// If code is capslock
+				else if(scan_out == CAPS)				// If code is capslock
 				    begin
-					caps_num_next = 2'b11;					// Set caps_num to 3, num of capslock scan codes to receive before going back to lowecase
-					state_next = capslock;						// Go to capslock state
+					caps_num_next = 2'b11;				// Set caps_num to 3, num of capslock scan codes to receive before going back to lowecase
+					state_next = capslock;				// Go to capslock state
 				    end
 	    
-				else if (scan_out == BREAK)					// Else if code is break code
-				    state_next = ignore_break;					// Go to ignore_break state
+				else if (scan_out == BREAK)				// Else if code is break code
+				    state_next = ignore_break;				// Go to ignore_break state
 		     
-				else											// Else if code is none of the above...            
-				    got_code_tick = 1'b1;							// Assert got_code_tick to write scan_out to FIFO
+				else							// Else if code is none of the above...            
+				    got_code_tick = 1'b1;				// Assert got_code_tick to write scan_out to FIFO
 			    end	
 			end
 		
 		// State to ignore repeated scan code after break code FO received in lowercase state
 		ignore_break:
 		    begin
-			if(scan_done_tick)				// If scan code received, 
+			if(scan_done_tick)			// If scan code received, 
 			    state_next = lowercase;		// Go back to lowercase state
 		    end
 		
@@ -209,11 +209,11 @@ module keyboard (
 		 // State to ignore repeated scan code after break code F0 received in shift state 
 		 ignore_shift_break:
 		     begin
-			if(scan_done_tick)						    // If scan code received
+			if(scan_done_tick)				// If scan code received
 			    begin
-				if(scan_out == shift_type_reg)		    // If scan code is shift key initially pressed
-				    state_next = lowercase;			    // Shift/capslock key unpressed, go back to lowercase state
-				else								    // Else repeated scan code received, go back to uppercase state
+				if(scan_out == shift_type_reg)		// If scan code is shift key initially pressed
+				    state_next = lowercase;		// Shift/capslock key unpressed, go back to lowercase state
+				else					// Else repeated scan code received, go back to uppercase state
 				    state_next = shift;
 			    end
 		     end  
@@ -221,32 +221,32 @@ module keyboard (
 		 // State to process scan codes after capslock code received in lowecase state
 		 capslock:
 		     begin
-			letter_case = 1'b1;									    // Routed out to convert scan code to upper value for a key
+			letter_case = 1'b1;						// Routed out to convert scan code to upper value for a key
 					       
-			if(caps_num_reg	== 0)							    // If capslock code received 3 times, 
-			    state_next = lowercase;							    // Go back to lowecase state
+			if(caps_num_reg	== 0)						// If capslock code received 3 times, 
+			    state_next = lowercase;					// Go back to lowecase state
 						       
-			if(scan_done_tick)									    // If scan code received
+			if(scan_done_tick)						// If scan code received
 			    begin 
-			    if(scan_out	== CAPS)							    // If code is capslock, 
-				caps_num_next = caps_num_reg - 1;				    // Decrement caps_num
+			    if(scan_out	== CAPS)					// If code is capslock, 
+				caps_num_next = caps_num_reg - 1;			// Decrement caps_num
 						       
-			    else if(scan_out == BREAK)						    // Else if code is break, go to ignore_caps_break state
+			    else if(scan_out == BREAK)					// Else if code is break, go to ignore_caps_break state
 				state_next = ignore_caps_break;
 						       
-			    else if(scan_out != SHIFT1 && scan_out != SHIFT2)	    // Else if code isn't a shift key
-				got_code_tick =	1'b1;						    // Assert got_code_tick to write scan_out to FIFO
+			    else if(scan_out != SHIFT1 && scan_out != SHIFT2)		// Else if code isn't a shift key
+				got_code_tick =	1'b1;					// Assert got_code_tick to write scan_out to FIFO
 			    end
 		     end
 				    
 		     // State to ignore repeated scan code after break code F0 received in capslock state 
 		     ignore_caps_break:
 			 begin
-			    if(scan_done_tick)							// If scan code received
+			    if(scan_done_tick)						// If scan code received
 				begin
-				    if(scan_out	== CAPS)					// If code is capslock
+				    if(scan_out	== CAPS)				// If code is capslock
 					caps_num_next = caps_num_reg - 1;		// Decrement caps_num
-				    state_next = capslock;					// Return to capslock state
+				    state_next = capslock;				// Return to capslock state
 				end
 			 end    
 	    endcase
@@ -283,8 +283,8 @@ module key2ascii (
 		8'h3d: key = 4'd21;	// 7; Ti (B5)
 		
 		/* Octave Middle */
-		8'h15: key = 4'd8;		// q; Do (C4)
-		8'h1d: key = 4'd9;		// w; Re (D4)
+		8'h15: key = 4'd8;	// q; Do (C4)
+		8'h1d: key = 4'd9;	// w; Re (D4)
 		8'h1d: key = 4'd10;	// e; Mi (E4)
 		8'h2d: key = 4'd11;	// r; Fa (F4)
 		8'h2c: key = 4'd12;	// t; So (G4)
@@ -292,15 +292,15 @@ module key2ascii (
 		8'h3c: key = 4'd14;	// u; Ti (B4)
 		
 		/* Octave Below */
-		8'h1c: key = 4'd1;		// a; Do (C3)
-		8'h1b: key = 4'd2;	    	// s; Re (D3)
-		8'h23: key = 4'd3;		// d; Mi (E3)
-		8'h2b: key = 4'd4;		// f; Fa (F3)
-		8'h34: key = 4'd5;		// g; So (G3)
-		8'h33: key = 4'd6;		// h; La (A3)
-		8'h3b: key = 4'd7;		// j; Ti (B3)
+		8'h1c: key = 4'd1;	// a; Do (C3)
+		8'h1b: key = 4'd2;	// s; Re (D3)
+		8'h23: key = 4'd3;	// d; Mi (E3)
+		8'h2b: key = 4'd4;	// f; Fa (F3)
+		8'h34: key = 4'd5;	// g; So (G3)
+		8'h33: key = 4'd6;	// h; La (A3)
+		8'h3b: key = 4'd7;	// j; Ti (B3)
 		  
-		default: key = 4'd8; // default Do (C4)
+		default: key = 4'd8;	// default Do (C4)
 	    endcase
 	end
 endmodule

@@ -1,6 +1,6 @@
 module top_module (
-	input PS2_KBCLK,		// Keyboard Clock
-	input PS2_KBDAT,		// Keyboard Input Data
+	input PS2_KBCLK,	// Keyboard Clock
+	input PS2_KBDAT,	// Keyboard Input Data
 	input CLOCK_50,
 	input [17:0] SW,
 	input [3:0] KEY,
@@ -19,7 +19,7 @@ module top_module (
 	key2ascii SC2A (
 		.letter_case(key_letter_case),	// Input
 		.scan_code(key_scan_code),	// Input
-		.key(keyboard_key)			// Output
+		.key(keyboard_key)		// Output
 	);
 	
 	keyboard kd (
@@ -34,17 +34,9 @@ module top_module (
 	
 	/* Piano output */
 	piano p(
-		.clk(),
 		.key(keyboard_key),
-		.btn(),
-		.n1(),
-		.n2(),
-		.n3(),
-		.n4(),
-		.n5(),
-		.n6(),
-		.n7(),
-		.n8()
+		.clk(),
+		.speaker()
 		);
 	
 	/* Metronome BPM Display */

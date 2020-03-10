@@ -3,5 +3,12 @@ This project is an FPGA application on the Altera DE2-115 board that functions a
 
 ## Requirements
 * Cyclone IV FPGA DE2 board
-* Keyboard
-* Sensor
+* Keyboard: Connect to PS/2 port
+* Microphone: Connect to mic-in in DE2 board
+* Speaker: Connect to line-out in DE2 board
+
+## References
+0. Pin Assignments
+  * We used DE2.qsf file provided for labs to assign all pins on DE2 boards.
+1. Keyboard Module
+  * We used keyboard, key2ascii, and ps2_rx modules from https://github.com/jconenna/FPGA-Projects/tree/master/Keyboard_Interface. ps2_rx and keyboard modules are directly copied and key2ascii was modified to include octave below, octave middle, and octave above keys.

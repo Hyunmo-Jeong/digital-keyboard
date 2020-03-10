@@ -1,4 +1,4 @@
-// Module taken from Joe Armitage & co
+// Input for piano
 module ps2_rx (
 	input wire clk, reset, 
 	input wire ps2d, ps2c, rx_en,		// ps2 data and clock inputs, receive enable input
@@ -97,7 +97,6 @@ module ps2_rx (
 	assign rx_data = d_reg[8:1]; // output data bits 
 endmodule
 
-// Module taken from Joe Armitage & co
 module keyboard (
     input wire clk, reset,
     input wire ps2d, ps2c,		// ps2 data and clock lines
@@ -263,7 +262,6 @@ module keyboard (
 	
 endmodule
 
-// Module modified from key2ascii by Joe Armitage & co
 module key2ascii (
     input wire letter_case,
     input wire [7:0] scan_code,

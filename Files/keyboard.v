@@ -265,7 +265,7 @@ endmodule
 module key2ascii (
     input wire letter_case,
     input wire [7:0] scan_code,
-    output reg [3:0] key
+	output reg [20:0] key
     );
     
     always @(*)

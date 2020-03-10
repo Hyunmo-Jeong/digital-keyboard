@@ -12,3 +12,5 @@ This project is an FPGA application on the Altera DE2-115 board that functions a
   * We used DE2.qsf file provided for labs to assign all pins on DE2 boards.
 1. Keyboard Module
   * We used keyboard, key2ascii, and ps2_rx modules from https://github.com/jconenna/FPGA-Projects/tree/master/Keyboard_Interface. ps2_rx and keyboard modules are directly copied and key2ascii was modified to include octave below, octave middle, and octave above keys.
+2. Piano Module
+  * We used the piano module from https://github.com/mdelrosa/cafinalproject. Piano module was modified to input keyboard keys and add more counters.The frequency and period of each counter were modified, referring to https://pages.mtu.edu/~suits/notefreqs.html.

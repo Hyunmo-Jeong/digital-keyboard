@@ -6,10 +6,10 @@ module metronome (
 	input tapup,		    	// KEY[3]
 	output speaker,	    		// Speaker
 	output [7:0] led,	    	// LEDR[7:0]
-	output reg [0:6] hex0, 
-	output reg [0:6] hex10, 
-	output reg [0:6] hex100
-	); // HEX[2:0]
+	output reg [0:6] hex0, 		// HEX0
+	output reg [0:6] hex10,		// HEX1 
+	output reg [0:6] hex100		// HEX2
+	);
 	
 	/* integer */
 	integer counter1;

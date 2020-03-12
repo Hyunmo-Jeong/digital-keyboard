@@ -1,5 +1,5 @@
 module metronome (
-	input [17:0] in,		// 5 switches
+	input [17:0] in,		// SW[4:0]
 	input clock,			// CLOCK50
 	input reset,			// SW[5]
 	input tapdown,			// KEY[2]

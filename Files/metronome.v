@@ -27,7 +27,7 @@ module metronome (
 		begin
 			hex0 = 4'b0000; // 0
 			
-			if (~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
+			if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b0110;	// 6
@@ -35,7 +35,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (~SW[3] && ~SW[2] && ~SW[1] && SW[0]) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b0111;	// 7
@@ -43,7 +43,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (~SW[3] && ~SW[2] && SW[1] && ~SW[0])
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b1000;	// 8
@@ -51,7 +51,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (~SW[3] && ~SW[2] && SW[1] && SW[0]) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b1001;	// 9
@@ -67,7 +67,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[5] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0001;	// 1
@@ -75,7 +75,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[6] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0010;	// 2
@@ -83,7 +83,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[7] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0011;	// 3
@@ -91,7 +91,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[8] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0100;	// 4
@@ -99,7 +99,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[9] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0101;	// 5
@@ -107,7 +107,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[10] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0110;	// 6
@@ -115,7 +115,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[11] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0111;	// 7
@@ -123,7 +123,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[12] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b1000;	// 8
@@ -131,7 +131,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[13] == 1)
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b1001;	// 9
@@ -139,7 +139,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[14] == 1)
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0010;	// 2
 					hex10 = 4'b0000;	// 0
@@ -147,7 +147,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[15] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0010;	// 2
 					hex10 = 4'b0001;	// 1
@@ -155,7 +155,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[16] == 1) 
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0010;	// 2
 					hex10 = 4'b0010;	// 2
@@ -163,7 +163,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[17] == 1)
+			else if (~SW[4] && ~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0010;	// 2
 					hex10 = 4'b0011;	// 3

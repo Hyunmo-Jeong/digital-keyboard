@@ -199,7 +199,7 @@ module metronome (
 					counttap = counttap + 1;
 				end
 		    
-			if(tapdown== 0) 
+			if(tapdown == 0) 
 				begin
 					counttap = counttap - 1;
 				end

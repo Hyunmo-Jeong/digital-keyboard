@@ -2,8 +2,11 @@ module top_module (
 	input PS2_KBCLK,	// Keyboard Clock
 	input PS2_KBDAT,	// Keyboard Input Data
 	input CLOCK_50,
-	input [17:0] SW,
-	input [3:0] KEY,
+	input [17:0] SW,	// SW[4:0] is metronome BPM controller
+				// SW[5] is reset for metronome
+				// SW[19] is reset for keyboard
+	input [3:0] KEY,	// KEY[2] is tapdown
+				// KEY[3] is tapup
 	// Sound Input (microphone)
 	output [6:0] HEX4,
 	output [6:0] HEX5,
@@ -16,15 +19,15 @@ module top_module (
 	wire [7:0] key_scan_code;
 	wire key_sc_ready, key_letter_case;
 	
-	key2ascii SC2A (
+	key2ascii SC2A(
 		.letter_case(key_letter_case),	// Input
 		.scan_code(key_scan_code),	// Input
 		.key(keyboard_key)		// Output
 	);
 	
-	keyboard kd (
+	keyboard kd(
 		.clk(CLOCK_50),
-		.reset(~resetn),
+		.reset(~SW[19]),
 		.ps2d(PS2_KBDAT),
 		.ps2c(PS2_KBCLK),
 		.scan_code(key_scan_code),
@@ -35,12 +38,22 @@ module top_module (
 	/* Piano output */
 	piano p(
 		.key(keyboard_key),
-		.clk(),
-		.speaker()
+		.clk(CLOCK50),
+		.speaker(speaker)
 		);
 	
 	/* Metronome BPM Display */
 	wire [7:0] metronome;
+	metronome defaultBPM(
+		.speed(),
+		.in(SW[4:0]),
+		.clock(CLOCK50),
+		.reset(SW[5]),
+		.tapdown(KEY[2]),
+		.tapup(KEY[3]),
+		.speaker(speaker), 
+		.LED(metronome)
+		);
 	
 	hex_display hex5(
 		.IN(metronome[7:4]),

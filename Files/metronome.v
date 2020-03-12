@@ -27,8 +27,6 @@ module metronome (
 		begin
 			hex0 = 7'b0000001;
 			
-			// Displays tempo on 7-segment display from switches
-			// Sets BPM to given tempo
 			if (in[0] == 1)
 				begin
 					hex100 = 7'b0000001;	// 0

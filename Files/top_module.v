@@ -43,7 +43,7 @@ module top_module (
 		);
 	
 	/* Metronome BPM Display */
-	wire [20:0] metronome;	
+	wire [11:0] metronome;	
 	metronome defaultBPM(
 		.in(SW[4:0]),
 		.clock(CLOCK50),
@@ -52,22 +52,22 @@ module top_module (
 		.tapup(KEY[3]),
 		.speaker(speaker), 
 		.LED(LEDR[7:0]),
-		.HEX0(metronome[6:0]),
-		.HEX10(metronome[13:7]),
-		.HEX100(metronome[20:14])
+		.HEX0(metronome[3:0]),
+		.HEX10(metronome[7:4]),
+		.HEX100(metronome[11:8])
 		);
 	
 	hex_display hex0(
-		.IN(metronome[6:0]),
+		.IN(metronome[3:0]),
 		.OUT(HEX0[6:0]) 
 		);
 	
 	hex_display hex1(
-		.IN(metronome[13:7]),
+		.IN(metronome[7:4]),
 		.OUT(HEX1[6:0])
 		);
 	hex_display hex2(
-		.IN(metronome[20:14]),
+		.IN(metronome[11:8]),
 		.OUT(HEX2[6:0])
 		);
 endmodule

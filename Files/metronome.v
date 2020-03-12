@@ -27,7 +27,7 @@ module metronome (
 		begin
 			hex0 = 4'b0000; // 0
 			
-			if (in[0] == 1)
+			if (~SW[3] && ~SW[2] && ~SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b0110;	// 6
@@ -35,7 +35,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[1] == 1) 
+			else if (~SW[3] && ~SW[2] && ~SW[1] && SW[0]) 
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b0111;	// 7
@@ -43,7 +43,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[2] == 1)
+			else if (~SW[3] && ~SW[2] && SW[1] && ~SW[0])
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b1000;	// 8
@@ -51,7 +51,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[3] == 1) 
+			else if (~SW[3] && ~SW[2] && SW[1] && SW[0]) 
 				begin
 					hex100 = 4'b0000;	// 0
 					hex10 = 4'b1001;	// 9

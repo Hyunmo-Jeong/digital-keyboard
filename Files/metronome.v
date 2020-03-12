@@ -1,11 +1,11 @@
 module metronome (
 	input [17:0] in,		// 5 switches
-	input clock,			// 50MHz internal clock
+	input clock,			// CLOCK50
 	input reset,			// SW[5]
 	input tapdown,			// KEY[2]
 	input tapup,		    	// KEY[3]
 	output speaker,	    		// Speaker
-	output [7:0] led,	    	// LEDG[7:0]
+	output [7:0] led,	    	// LEDR[7:0]
 	output reg [0:6] hex0, 
 	output reg [0:6] hex10, 
 	output reg [0:6] hex100

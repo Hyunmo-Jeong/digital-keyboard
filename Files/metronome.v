@@ -1,11 +1,11 @@
 module metronome (
-	input [17:0] in,	    // 5 switches
-	input clock,		    // 50MHz internal clock
-	input reset,		    // SW[5]
-	input tapdown,	    // KEY[2]
-	input tapup,		    // KEY[3]
-	output speaker,	    // Speaker
-	output [7:0] led,	    // LEDG[7:0]
+	input [17:0] in,		// 5 switches
+	input clock,			// 50MHz internal clock
+	input reset,			// SW[5]
+	input tapdown,			// KEY[2]
+	input tapup,		    	// KEY[3]
+	output speaker,	    		// Speaker
+	output [7:0] led,	    	// LEDG[7:0]
 	output reg [0:6] hex0, 
 	output reg [0:6] hex10, 
 	output reg [0:6] hex100
@@ -23,7 +23,7 @@ module metronome (
 	assign led = state;
 	assign speaker = state[0] | state[7];
 	
-	always @(in, tapup, tapdown) 
+	always @(in, tapup, tapdown)
 		begin
 			hex0 = 7'b0000001;
 			
@@ -31,153 +31,153 @@ module metronome (
 			// Sets BPM to given tempo
 			if (in[0] == 1)
 				begin
-					hex100 = 7'b0000001; // 0
-					hex10 = 7'b0100000; // 6
+					hex100 = 7'b0000001;	// 0
+					hex10 = 7'b0100000;	// 6
 					speed = 60;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[1] == 1) 
 				begin
-					hex100 = 7'b0000001; // 0
-					hex10 = 7'b0001111; // 7
+					hex100 = 7'b0000001;	// 0
+					hex10 = 7'b0001111;	// 7
 					speed = 70;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[2] == 1)
 				begin
-					hex100 = 7'b0000001; // 0
-					hex10 = 7'b0000000; // 8
+					hex100 = 7'b0000001;	// 0
+					hex10 = 7'b0000000;	// 8
 					speed = 80;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[3] == 1) 
 				begin
-					hex100 = 7'b0000001; // 0
-					hex10 = 7'b0001100; // 9
+					hex100 = 7'b0000001;	// 0
+					hex10 = 7'b0001100;	// 9
 					speed = 90;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[4] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0000001; // 0
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0000001;	// 0
 					speed = 100;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[5] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b1001111; // 1
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b1001111;	// 1
 					speed = 110;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[6] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0010010; // 2
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0010010;	// 2
 					speed = 120;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[7] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0000110; // 3
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0000110;	// 3
 					speed = 130;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[8] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b1001100; // 4
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b1001100;	// 4
 					speed = 140;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[9] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0100100; // 5
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0100100;	// 5
 					speed = 150;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[10] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0100000; // 6
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0100000;	// 6
 					speed = 160;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[11] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0001111; // 7
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0001111;	// 7
 					speed = 170;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[12] == 1) 
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0000000; // 8
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0000000;	// 8
 					speed = 180;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[13] == 1)
 				begin
-					hex100 = 7'b1001111; // 1
-					hex10 = 7'b0001100; // 9
+					hex100 = 7'b1001111;	// 1
+					hex10 = 7'b0001100;	// 9
 					speed = 190;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[14] == 1)
 				begin
-					hex100 = 7'b0010010; //2
-					hex10 = 7'b0000001; //0
+					hex100 = 7'b0010010;	// 2
+					hex10 = 7'b0000001;	// 0
 					speed = 200;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[15] == 1) 
 				begin
-					hex100 = 7'b0010010; //2
-					hex10 = 7'b1001111; //1
+					hex100 = 7'b0010010;	// 2
+					hex10 = 7'b1001111;	// 1
 					speed = 210;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[16] == 1) 
 				begin
-					hex100 = 7'b0010010; // 2
-					hex10 = 7'b0010010; // 2
+					hex100 = 7'b0010010;	// 2
+					hex10 = 7'b0010010;	// 2
 					speed = 220;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else if (in[17] == 1)
 				begin
-					hex100 = 7'b0010010; // 2
-					hex10 = 7'b0000110; // 3
+					hex100 = 7'b0010010;	// 2
+					hex10 = 7'b0000110;	// 3
 					speed = 230;
 					bpm = 49999999 / speed * 120;
 				end
 		    
 			else 
 				begin
-					hex100 = 7'b0100100; // s
-					hex10 = 7'b0110000; // e
-					hex0 = 7'b1110001; // l
+					hex100 = 7'b0100100;	// s
+					hex10 = 7'b0110000;	// e
+					hex0 = 7'b1110001;	// l
 					speed = 60;
 					bpm = (49999999) / ((counttap / 49999999) * 32) * 160;
 				end

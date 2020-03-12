@@ -59,7 +59,7 @@ module metronome (
 					bpm = 49999999 / speed * 120;
 				end
 		    
-			else if (in[4] == 1) 
+			else if (~SW[4] && ~SW[3] && SW[2] && ~SW[1] && ~SW[0]) 
 				begin
 					hex100 = 4'b0001;	// 1
 					hex10 = 4'b0000;	// 0
